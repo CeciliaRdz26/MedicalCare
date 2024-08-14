@@ -9,16 +9,6 @@
                         @method('PUT')
 
                         <div class="mb-4">
-                            <x-label for="proveedor_id" :value="__('Proveedor')" />
-                            <x-select-input id="proveedor_id" class="block mt-1 w-full" name="proveedor_id" :value="old('proveedor_id')" required>
-                                @foreach ($proveedores as $proveedor)
-                                    <option value="{{ $proveedor->id }}" {{ old('proveedor_id', $compra->proveedor_id) == $proveedor->id ? 'selected' : '' }}>{{ $proveedor->nombre }}</option>
-                                @endforeach
-                            </x-select-input>
-                            <x-individual-input-error  :messages="$errors->get('proveedor_id')" class="mt-2" />
-                        </div>
-
-                        <div class="mb-4">
                             <x-label for="producto_id" :value="__('Producto')" />
                             <x-select-input id="producto_id" class="block mt-1 w-full" name="producto_id" :value="old('producto_id')" required>
                                 @foreach ($productos as $producto)

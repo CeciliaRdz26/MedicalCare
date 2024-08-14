@@ -86,18 +86,6 @@ class CompraController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     */
-    public function show(Compra $compra)
-    {
-        $productos = Producto::all();
-        return view('pages.admin.compras.show', [
-            'compra' => $compra,
-            'productos' => $productos,
-        ]);
-    }
-
-    /**
      * Show the form for editing the specified resource.
      */
     public function edit(Compra $compra)

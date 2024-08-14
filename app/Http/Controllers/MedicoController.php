@@ -101,16 +101,6 @@ class MedicoController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     */
-    public function show(Medico $medico)
-    {
-        return view('pages.admin.medicos.show',
-            ['medico' => $medico]
-        );    
-    }
-
-    /**
      * Show the form for editing the specified resource.
      */
     public function edit(Medico $medico)
@@ -127,12 +117,13 @@ class MedicoController extends Controller
     {
         $request->validate([
             'name' => 'required|string',
+            'imagen' => 'sometimes|image',
             'email' => 'required|email|unique:users,email,'.$medico->user->id,
-            'telefono' => 'required|string',
-            'curp' => 'required|string|unique:users,curp|max:18',
+            'telefono' => 'required|string|unique:users,telefono,'.$medico->user->id,
+            'curp' => 'required|string|unique:users,curp,'.$medico->user->id.'|max:18',
             'especialidad' => 'required|string',
-            'cedula' => 'required|string|unique:medicos,cedula|max:8',
-            'password' => 'required|string|confirmed',
+            'cedula' => 'required|string|unique:medicos,cedula,'.$medico->id.'|max:8',
+            'direccion' => 'required|string',
         ]);
 
          // si se sube una nueva imagen
@@ -169,7 +160,6 @@ class MedicoController extends Controller
                 'email' => $request->email,
                 'curp' => $request->curp,
                 'telefono' => $request->telefono,
-                'password' => Hash::make($request->password),
             ]);
 
         } else {

@@ -39,7 +39,7 @@
                                 <form action="{{ route('cita.cancelar', $cita->id) }}" method="POST">
                                     @csrf
                                     @method('PUT')
-                                    <button type="submit" class="rounded-lg text-sm font-semibold py-2 px-4 ms-2 bg-white border border-red-100 text-red-400 hover:text-red-400 hover:bg-red-100">
+                                    <button type="submit" class="rounded-lg text-sm font-semibold py-2 px-4 ms-2 bg-white border border-red-100 text-red-400 hover:text-red-400 hover:bg-red-100" data-confirm-delete="true">
                                         Cancelar cita
                                     </button>
                                 </form>
@@ -50,7 +50,7 @@
                             @endif
                             
                             @if (in_array($cita->status, ['aceptada', 'completada']))
-                                <a href="{{ route('cita.chat-paciente', $cita->id) }}" class="rounded-lg text-sm font-semibold py-2 px-4 ms-2 bg-white border border-blue-100 text-blue-400 hover:text-blue-500 hover:bg-blue-100">
+                                <a href="{{ route('cita.chat-paciente', $cita->id) }}" class="rounded-lg text-sm font-semibold py-2 px-4 ms-2 bg-white border border-blue-100 text-blue-400 hover:text-blue-400 hover:bg-blue-100">
                                     Ver chat
                                 </a>
                             @endif

@@ -82,21 +82,6 @@ class InventarioController extends Controller
     
 
     /**
-     * Display the specified resource.
-     */
-    public function show(Inventario $inventario)
-    {
-        $productos = Producto::all();
-        $categorias = Categoria::all();
-        // dd($inventario);
-        return view('pages.admin.inventarios.show', [
-            'inventario' => $inventario,
-            'productos' => $productos,
-            'categorias' => $categorias
-        ]);
-    }
-
-    /**
      * Show the form for editing the specified resource.
      */
     public function edit(Inventario $inventario)

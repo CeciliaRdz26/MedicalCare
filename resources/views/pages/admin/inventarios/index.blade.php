@@ -38,7 +38,6 @@
                                     <td class="px-6 py-4 whitespace-nowrap">{{ $inventario->cantidad }}</td>
                                     <td class="px-6 py-4 whitespace-nowrap">{{ $inventario->cantidad_movimiento }}</td>
                                     <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                                        <a href="{{ route('inventarios.show', $inventario->id) }}" class="text-blue-600 hover:text-blue-900">Ver</a>
                                         <a href="{{ route('inventarios.edit', $inventario->id) }}" class="text-yellow-600 hover:text-yellow-900 ml-4">Editar</a>
                                         <a href="{{ route('inventarios.destroy', $inventario) }}" class="text-red-600 hover:text-red-900 ml-4" data-confirm-delete="true">
                                             Borrar

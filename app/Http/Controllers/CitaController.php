@@ -14,6 +14,10 @@ class CitaController extends Controller
 
     public function PacienteMisCitas()
     {
+        $title = 'Cancelar cita';
+        $text = "¿Estás seguro de que quieres cancelar esta cita?";
+        confirmDelete($title, $text);
+
         $citas = Cita::where('paciente_id', auth()->user()->paciente->id)
                     ->orderBy('fecha_hora', 'desc')
                     ->get();
@@ -23,6 +27,10 @@ class CitaController extends Controller
 
     public function MedicoMisCitas()
     {
+        $title = 'Cancelar cita';
+        $text = "¿Estás seguro de que quieres cancelar esta cita?";
+        confirmDelete($title, $text);
+
         $citas = Cita::where('medico_id', auth()->user()->medico->id)
                     ->where('status', '!=', 'cancelada')
                     ->orderBy('fecha_hora', 'desc')
@@ -56,8 +64,9 @@ class CitaController extends Controller
             'status' => 'pendiente',
         ]);
 
-        // return redirect()->route('medicos')->with('success', 'Cita reservada con éxito.');
-        return redirect()->back()->with('success', 'Cita reservada con éxito.');
+        alert()->success('Cita reservada con éxito.')->showConfirmButton('Aceptar');
+
+        return redirect()->route('citas.paciente.mis-citas');
     }
     
     public function CitaCancelar(Cita $cita)

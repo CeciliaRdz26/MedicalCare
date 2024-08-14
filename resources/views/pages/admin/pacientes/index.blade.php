@@ -34,7 +34,6 @@
                                     <td class="px-6 py-4 whitespace-nowrap">{{ $paciente->sexo }}</td> 
                                     <td class="px-6 py-4 whitespace-nowrap">{{ $paciente->tipo_sangre }}</td>
                                     <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                                        <a href="{{ route('pacientes.show', $paciente->id) }}" class="text-blue-600 hover:text-blue-900">Ver</a>
                                         <a href="{{ route('pacientes.edit', $paciente->id) }}" class="text-yellow-600 hover:text-yellow-900 ml-4">Editar</a>
                                         <a href="{{ route('pacientes.destroy', $paciente) }}" class="text-red-600 hover:text-red-900 ml-4" data-confirm-delete="true">
                                             Borrar

@@ -65,13 +65,6 @@ class PacienteController extends Controller
         return redirect()->route('pacientes.index');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Paciente $paciente)
-    {
-        return view('pages.admin.pacientes.show', compact('paciente'));
-    }
 
     /**
      * Show the form for editing the specified resource.

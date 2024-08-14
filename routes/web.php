@@ -27,19 +27,6 @@ Route::get('/productos', [ProductoController::class, 'PublicIndex'])->name('prod
 Route::get('/productos/{producto}', [ProductoController::class, 'show'])->name('productos.show');
 Route::get('/medicos', [MedicoController::class, 'PublicIndex'])->name('medicos');
 
-
-Route::middleware([
-    'auth:sanctum',
-    'paciente',
-    'medico',
-    config('jetstream.auth_session'),
-    'verified',
-])->group(function () {
-    Route::post('/mensaje/enviar', [CitaController::class, 'enviarMensaje'])->name('mensaje.enviar');
-});
-
-
-
 Route::middleware([
     'auth:sanctum',
     'paciente',
@@ -61,12 +48,7 @@ Route::middleware([
     Route::get('/compras/mis-compras', [VentaController::class, 'misCompras'])->name('compras.mis-compras');
     Route::get('/compras/mis-compras/{venta}', [VentaController::class, 'compradetail'])->name('compras.mis-compras.detalle');
     Route::get('/compras/mis-compras/{venta}/pdf', [VentaController::class, 'comprapdf'])->name('compras.mis-compras.pdf');
-
     Route::get('/citas/mis-citas/chat/{cita}', [CitaController::class, 'PacienteCitaChat'])->name('cita.chat-paciente');
-
-
-
-
 });
 
 Route::middleware([
@@ -79,7 +61,6 @@ Route::middleware([
     Route::get('/medico/mis-citas', [CitaController::class, 'MedicoMisCitas'])->name('citas.medico.mis-citas');
     Route::put('/medico/mis-citas/aceptar/{cita}', [CitaController::class, 'CitaAceptar'])->name('cita.aceptar');
     Route::put('/medico/mis-citas/completar/{cita}', [CitaController::class, 'CitaCompletar'])->name('cita.completar');
-    
     Route::get('/medico/mis-citas/chat/{cita}', [CitaController::class, 'MedicoCitaChat'])->name('cita.chat-medico');
 });
 
@@ -93,8 +74,6 @@ Route::middleware([
     Route::get('/dashboard', function () {
         return view('dashboard');
     })->name('dashboard');
-
-    Route::post('/send-message', [CitaController::class, 'sendMessage'])->name('send.message');
 
     //admin routes
     Route::get('/admin/productos', [ProductoController::class, 'index'])->name('productos.index');
@@ -159,6 +138,16 @@ Route::middleware([
     Route::put('/admin/compras/{compra}', [CompraController::class, 'update'])->name('compras.update');
     Route::delete('/admin/compras/{compra}', [CompraController::class, 'destroy'])->name('compras.destroy');
 });
+
+Route::middleware([
+    'auth:sanctum',
+    config('jetstream.auth_session'),
+    'verified',
+])->group(function () {
+    Route::post('/mensaje/enviar', [CitaController::class, 'enviarMensaje'])->name('mensaje.enviar');
+});
+    
+
 
 
 // 404: Not Found

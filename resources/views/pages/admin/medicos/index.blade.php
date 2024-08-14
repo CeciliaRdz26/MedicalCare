@@ -38,7 +38,6 @@
                                         <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">{{ $medico->cedula }}</td>
                                         <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">{{ $medico->especialidad }}</td>
                                         <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                                            <a class="text-blue-600 hover:text-blue-900"  href="{{ route('medicos.show', $medico) }}">Ver</a>
                                             <a class="text-yellow-600 hover:text-yellow-900 ml-4"  href="{{ route('medicos.edit', $medico) }}">Editar</a>
                                             <a href="{{ route('medicos.destroy', $medico) }}" class="text-red-600 hover:text-red-900 ml-4" data-confirm-delete="true">
                                                 Borrar

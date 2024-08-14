@@ -15,7 +15,6 @@
                         <table class="min-w-full bg-white">
                             <thead class="bg-gray-200">
                                 <tr>
-                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Vendedor</th>
                                     <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Paciente</th>
                                     <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Fecha de venta</th>
                                     <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Subtotal</th>
@@ -27,7 +26,6 @@
                             <tbody class="bg-gray-100 divide-y divide-gray-200">
                                 @foreach ($ventas as $venta)
                                     <tr>
-                                        <td class="px-6 py-4 whitespace-nowrap">{{ $venta->user->name }}</td>
                                         <td class="px-6 py-4 whitespace-nowrap">{{ $venta->paciente->user->name }}</td>
                                         <td class="px-6 py-4 whitespace-nowrap">{{ $venta->fecha_de_venta }}</td>
                                         <td class="px-6 py-4 whitespace-nowrap">{{ $venta->subtotal }}</td>

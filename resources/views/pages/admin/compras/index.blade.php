@@ -42,7 +42,6 @@ $table->timestamps(); --}}
                                     <td class="px-6 py-4 whitespace-nowrap">${{ $compra->precio }}</td>
                                     <td class="px-6 py-4 whitespace-nowrap">${{ $compra->total }}</td>
                                     <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                                        <a href="{{ route('compras.show', $compra->id) }}" class="text-blue-600 hover:text-blue-900">Ver</a>
                                         <a href="{{ route('compras.edit', $compra->id) }}" class="text-yellow-600 hover:text-yellow-900 ml-4">Editar</a>
                                         <a href="{{ route('compras.destroy', $compra) }}" class="text-red-600 hover:text-red-900 ml-4" data-confirm-delete="true">
                                             Borrar
