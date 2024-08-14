@@ -9,6 +9,11 @@ class MensajeChat extends Model
 {
     use HasFactory;
 
+    protected $table = 'mensajes';
+
+    protected $fillable = ['cita_id', 'usuario_id', 'mensaje'];
+
+
     // Relación con Cita
     public function cita()
     {
@@ -20,4 +25,5 @@ class MensajeChat extends Model
     {
         return $this->belongsTo(User::class);
     }
+    
 }

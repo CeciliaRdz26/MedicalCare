@@ -41,7 +41,7 @@
                             </div>
                             <div class="mt-6">
                                 <a href="{{ route('checkout.index') }}"
-                                class="inline-flex justify-center rounded-lg text-sm font-semibold py-2.5 px-4 bg-blue-400 text-white hover:text-blue-400 hover:bg-blue-200 w-full">Ir a pagar</a>
+                                class="inline-flex justify-center rounded-lg text-sm font-semibold py-2.5 px-4 bg-blue-400 text-white hover:text-blue-500 hover:bg-blue-200 w-full">Ir a pagar</a>
                             </div>
                         </div>
                     </div>

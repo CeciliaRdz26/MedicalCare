@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Carbon\Carbon;
 use App\Models\Cita;
 use App\Models\Medico;
+use App\Events\MessageSent;
+use App\Models\MensajeChat;
 use Illuminate\Http\Request;
 
 class CitaController extends Controller
@@ -27,75 +29,7 @@ class CitaController extends Controller
                     ->get();
 
         return view('pages.medico.citas.index', compact('citas'));
-    }
-
-    public function citasDisponibles($medico_id)
-{
-    $medico = Medico::findOrFail($medico_id);
-    $hoy = now();
-    $diasSemana = [];
-    $horas = [];
-    $citasDisponibles = [];
-    $diasEsp = ['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes'];
-
-    $contadorDiasHabiles = 0;
-    $fecha = $hoy->copy();
-
-    // Generar los días de la semana hasta completar 5 días hábiles
-    while ($contadorDiasHabiles < 5) {
-        if ($fecha->isWeekday()) {
-            $dia = $fecha->format('l'); // Nombre del día
-            $diasSemana[] = $dia;
-            $contadorDiasHabiles++;
-
-            // Generar las horas solo la primera vez
-            if (empty($horas)) {
-                $inicioDia = $fecha->copy()->setTime(9, 0);
-                $finDia = $fecha->copy()->setTime(17, 30);
-                while ($inicioDia < $finDia) {
-                    $hora = $inicioDia->format('H:i');
-
-                    // Verificar si la hora es mayor o igual a la hora actual solo para el día de hoy
-                    if ($fecha->isSameDay($hoy) && $inicioDia->lt($hoy)) {
-                        $inicioDia->addMinutes(30);
-                        continue;
-                    }
-
-                    $horas[] = $hora;
-                    $inicioDia->addMinutes(30);
-                }
-            }
-
-            // Asignar las horas disponibles a cada día
-            foreach ($horas as $hora) {
-                $citasDisponibles[$dia][$hora] = $fecha->copy()->setTimeFromTimeString($hora)->format('Y-m-d H:i:s');
-            }
-        }
-        $fecha->addDay();
-
-        // Resetear las horas después del primer día
-        if ($contadorDiasHabiles == 1) {
-            $horas = [];
-        }
-    }
-
-    // Filtrar horarios ya ocupados
-    $citasOcupadas = Cita::where('medico_id', $medico_id)
-                        ->whereBetween('fecha_hora', [$hoy, $fecha])
-                        ->get();
-
-    foreach ($citasOcupadas as $cita) {
-        $dia = $cita->fecha_hora->format('l');
-        $hora = $cita->fecha_hora->format('H:i');
-        unset($citasDisponibles[$dia][$hora]);
-    }
-
-    return view('pages.paciente.medicos.show', compact('diasSemana', 'horas', 'citasDisponibles', 'medico', 'diasEsp', 'medico_id'));
-}
-
-    
-    
-    
+    }       
 
     public function reservar(Request $request)
     {
@@ -167,12 +101,113 @@ class CitaController extends Controller
 
     public function PacienteCitaChat(Cita $cita)
     {
+        // pasar los mensajes a la vista
+        $cita->load('mensajes');
         return view('pages.paciente.citas.chat', compact('cita'));
     }
 
     public function MedicoCitaChat(Cita $cita)
     {
+        // pasar los mensajes a la vista
+        $cita->load('mensajes');
         return view('pages.medico.citas.chat', compact('cita'));
     }
+
+    public function enviarMensaje(Request $request)
+    {
+        $request->validate([
+            'cita_id' => 'required|exists:citas,id',
+            'mensaje' => 'required|string',
+        ]);
+    
+        $mensaje = MensajeChat::create([
+            'cita_id' => $request->cita_id,
+            'usuario_id' => auth()->id(),
+            'mensaje' => $request->mensaje,
+        ]);
+    
+        broadcast(new MessageSent($mensaje))->toOthers();
+    
+        return response()->json($mensaje); // Retornar el mensaje para mostrarlo inmediatamente en la vista
+    }
+
+    public function citasDisponibles($medico_id)
+    {
+        $medico = Medico::findOrFail($medico_id);
+        $hoy = now();
+        $diasSemana = [];
+        $horas = [];
+        $citasDisponibles = [];
+        $DiasEspDinamicos = [];
+
+        // Array para traducir los días de la semana al español
+        $diasSemanaEspañol = [
+            'Monday'    => 'Lunes',
+            'Tuesday'   => 'Martes',
+            'Wednesday' => 'Miércoles',
+            'Thursday'  => 'Jueves',
+            'Friday'    => 'Viernes',
+            'Saturday'  => 'Sábado',
+            'Sunday'    => 'Domingo'
+        ];
+
+        $contadorDiasHabiles = 0;
+        $fecha = $hoy->copy();
+
+        // Generar los días de la semana hasta completar 5 días hábiles
+        while ($contadorDiasHabiles < 5) {
+            if ($fecha->isWeekday()) {
+                $dia = $fecha->format('l'); // Nombre del día en inglés
+                $diaEsp = $diasSemanaEspañol[$dia]; // Traducción al español
+                $diasSemana[] = $diaEsp;
+                $contadorDiasHabiles++;               
+
+                // Generar las horas solo la primera vez
+                if (empty($horas)) {
+                    $inicioDia = $fecha->copy()->setTime(9, 0);
+                    $finDia = $fecha->copy()->setTime(17, 30);
+                    while ($inicioDia < $finDia) {
+                        $hora = $inicioDia->format('H:i');
+                        $horas[] = $hora;
+                        $inicioDia->addMinutes(30);
+                    }
+                }
+
+                // Asignar las horas disponibles a cada día
+                foreach ($horas as $hora) {
+                    $citasDisponibles[$diaEsp][$hora] = $fecha->copy()->setTimeFromTimeString($hora)->format('Y-m-d H:i:s');
+                }
+            }
+            $fecha->addDay();
+        }
+
+        // Filtrar horarios ya ocupados
+        $citasOcupadas = Cita::where('medico_id', $medico_id)
+                            ->whereBetween('fecha_hora', [$hoy, $fecha])
+                            ->get();
+
+        foreach ($citasOcupadas as $cita) {
+            $dia = $cita->fecha_hora->format('l');
+            $diaEsp = $diasSemanaEspañol[$dia];
+            $hora = $cita->fecha_hora->format('H:i');
+            unset($citasDisponibles[$diaEsp][$hora]);
+        }
+
+        // Eliminar horas pasadas solo para el día actual
+        $hoyDia = $hoy->format('l');
+        $hoyDiaEsp = $diasSemanaEspañol[$hoyDia];
+        if (isset($citasDisponibles[$hoyDiaEsp])) {
+            foreach ($citasDisponibles[$hoyDiaEsp] as $hora => $fechaHora) {
+                $horaActual = $hoy->format('H:i');
+                if ($hora < $horaActual) {
+                    unset($citasDisponibles[$hoyDiaEsp][$hora]);
+                }
+            }
+        }
+
+        return view('pages.paciente.medicos.show', compact('diasSemana', 'horas', 'citasDisponibles', 'medico', 'medico_id'));
+    }
+
+    
 
 }

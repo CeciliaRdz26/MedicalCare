@@ -260,20 +260,20 @@
       <div class="-mx-4 flex flex-wrap justify-center">
         @foreach ($medicos as $medico)
             <div class="w-full px-4 sm:w-1/2 lg:w-1/4 xl:w-1/4">
-                <div class="shadow-1  group mb-8 rounded-[5px] bg-gray-100 px-5 pb-10 pt-12  ">
-                <div class="relative z-10 mx-auto mb-5 h-[120px] w-[120px]">
-                    <img src="{{asset($medico->imagen)}}"
-                    alt="{{ $medico->user->name }}"
-                    class="h-[120px] w-[120px] rounded-full">
-                </div>
-                <div class="text-center">
-                    <h4 class="mb-1 text-lg font-semibold text-gray-900 ">
-                      {{ $medico->user->name }}
-                    </h4>
-                    <p class=" mb-5 text-sm text-body-color">
-                      {{ $medico->especialidad }}
-                    </p>
-                </div>
+                <div class="shadow-1  group mb-8 rounded-[5px] bg-gray-100 px-5 pb-2 pt-6  ">
+                  <div class="relative z-10 mx-auto mb-5 h-[120px] w-[120px]">
+                      <img src="{{asset($medico->imagen)}}"
+                      alt="{{ $medico->user->name }}"
+                      class="h-[120px] w-[120px] rounded-full">
+                  </div>
+                  <div class="text-center">
+                      <h4 class="mb-1 text-lg font-semibold text-gray-900 ">
+                        {{ $medico->user->name }}
+                      </h4>
+                      <p class=" mb-5 text-sm text-body-color">
+                        {{ $medico->especialidad }}
+                      </p>
+                  </div>
                 </div>
             </div>
         @endforeach

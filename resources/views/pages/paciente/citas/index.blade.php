@@ -50,7 +50,7 @@
                             @endif
                             
                             @if (in_array($cita->status, ['aceptada', 'completada']))
-                                <a href="{{ route('cita.chat-paciente', $cita->id) }}" class="rounded-lg text-sm font-semibold py-2 px-4 ms-2 bg-white border border-blue-100 text-blue-400 hover:text-blue-400 hover:bg-blue-100">
+                                <a href="{{ route('cita.chat-paciente', $cita->id) }}" class="rounded-lg text-sm font-semibold py-2 px-4 ms-2 bg-white border border-blue-100 text-blue-400 hover:text-blue-500 hover:bg-blue-100">
                                     Ver chat
                                 </a>
                             @endif

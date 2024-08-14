@@ -3,36 +3,23 @@
         <div class="max-w-full px-10 mx-auto sm:px-6 lg:px-8">
             <div class="bg-white shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900">
-                    <div class="overflow-x-auto flex justify-between items-center mb-4 sm:pb-3 md:pb-3 pb-3">
-                        <h2 class="text-2xl font-semibold leading-tight sm:mr-5 md:mr-5 lg:mr-5 xl:mr-5 mr-10">Mis compras</h2>
+                    <div class="flex justify-between items-center mb-4">
+                        <h2 class="text-2xl font-semibold leading-tight">Mis compras</h2>
                     </div>
-                    <div class=" overflow-x-auto">
-                        <table class="min-w-full bg-white">
-                            <thead class="bg-gray-200">
-                                <tr>
-                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Fecha de compra</th>
-                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Subtotal</th>
-                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">IVA</th>
-                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Total</th>
-                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Acciones</th>
-                                </tr>
-                            </thead>
-                            <tbody class="bg-gray-100 divide-y divide-gray-200">
-                                @foreach ($ventas as $venta)
-                                    <tr>
-                                        <td class="px-6 py-4 whitespace-nowrap">{{ $venta->fecha_de_venta }}</td>
-                                        <td class="px-6 py-4 whitespace-nowrap">{{ $venta->subtotal }}</td>
-                                        <td class="px-6 py-4 whitespace-nowrap">{{ $venta->IVA }}</td>
-                                        <td class="px-6 py-4 whitespace-nowrap">{{ $venta->total }}</td>
-                                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                                            <a href="{{ route('compras.mis-compras.detalle', $venta->id) }}" class="text-green-600 hover:text-green-900 ml-4">Ver</a>
-                                            <a href="{{ route('compras.mis-compras.pdf', $venta->id) }}" class="text-blue-600 hover:text-blue-900 ml-4">PDF</a>
-                                        </td>
-                                    </tr>
-                                @endforeach
-                            
-                            </tbody>
-                        </table>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5 gap-6">
+                        @foreach ($ventas as $venta)
+                            <div class="bg-gray-50 shadow-md rounded-lg p-4 border border-gray-100">
+                                <h3 class="text-lg font-semibold">Compra #{{ $venta->id }}</h3>
+                                <p class="text-gray-600">Fecha de compra: <strong>{{ $venta->fecha_de_venta }}</strong></p>
+                                <p class="text-gray-600">Subtotal: <strong>${{ number_format($venta->subtotal, 2) }}</strong></p>
+                                <p class="text-gray-600">IVA: <strong>${{ number_format($venta->IVA, 2) }}</strong></p>
+                                <p class="text-gray-600">Total: <strong>${{ number_format($venta->total, 2) }}</strong></p>
+                                <div class="mt-4 flex flex-col space-y-2">
+                                    <a href="{{ route('compras.mis-compras.detalle', $venta->id) }}" class="block text-center py-2.5 px-4 justify-center rounded-lg text-sm font-semibold bg-green-400 text-white hover:text-green-500 hover:bg-green-200">Ver detalles</a>
+                                    <a href="{{ route('compras.mis-compras.pdf', $venta->id) }}" class="block text-center py-2.5 px-4 justify-center rounded-lg text-sm font-semibold bg-blue-400 text-white hover:text-blue-500 hover:bg-blue-200">PDF</a>
+                                </div>
+                            </div>
+                        @endforeach
                     </div>
                 </div>
             </div>

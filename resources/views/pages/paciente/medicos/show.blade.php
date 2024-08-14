@@ -14,7 +14,7 @@
                             <table class="min-w-full bg-white border border-gray-200 rounded-lg">
                                 <thead class="bg-blue-600 text-white">
                                     <tr>
-                                        @foreach ($diasEsp as $dia)
+                                        @foreach ($diasSemana as $dia)
                                             <th class="py-3 px-4 text-center">{{ $dia }}</th>
                                         @endforeach
                                     </tr>
