@@ -40,7 +40,7 @@ Route::middleware([
     Route::get('/medicos/citas/{medico}', [CitaController::class, 'citasDisponibles'])->name('citas.medico');
     Route::post('/citas', [CitaController::class, 'reservar'])->name('citas.reservar');
     Route::get('/citas/mis-citas', [CitaController::class, 'PacienteMisCitas'])->name('citas.paciente.mis-citas');
-    Route::put('/citas/mis-citas/cancelar/{cita}', [CitaController::class, 'CitaCancelar'])->name('cita.cancelar');
+    Route::put('/citas/mis-citas/cancelar/{cita}', [CitaController::class, 'CitaPacienteCancelar'])->name('cita.cancelar');
     Route::get('/checkout', [VentaController::class, 'checkout'])->name('checkout.index');
     Route::post('/checkout', [VentaController::class, 'chstore'])->name('checkout.store');
     Route::get('/compra/detalle/{venta}', [VentaController::class, 'compradetail'])->name('detalle.compra');
@@ -62,7 +62,7 @@ Route::middleware([
     Route::put('/medico/mis-citas/aceptar/{cita}', [CitaController::class, 'CitaAceptar'])->name('cita.aceptar');
     Route::put('/medico/mis-citas/completar/{cita}', [CitaController::class, 'CitaCompletar'])->name('cita.completar');
     Route::get('/medico/mis-citas/chat/{cita}', [CitaController::class, 'MedicoCitaChat'])->name('cita.chat-medico');
-    Route::put('/medico/mis-citas/cancelar/{cita}', [CitaController::class, 'CitaCancelar'])->name('cita.medico-cancelar');
+    Route::put('/medico/mis-citas/cancelar/{cita}', [CitaController::class, 'CitaMedicoCancelar'])->name('cita.medico-cancelar');
 
 });
 
