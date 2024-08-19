@@ -17,8 +17,8 @@ return new class extends Migration
             // imagen
             $table->string('imagen')->nullable();
             $table->string('cedula', 50)->unique();
-            $table->string('especialidad', 50);
-            $table->string('direccion', 100);
+            $table->string('especialidad');
+            $table->string('direccion');
             $table->timestamps();
         });
     }
