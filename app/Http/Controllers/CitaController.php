@@ -69,7 +69,20 @@ class CitaController extends Controller
         return redirect()->route('citas.paciente.mis-citas');
     }
     
-    public function CitaCancelar(Cita $cita)
+    public function CitaPacienteCancelar(Cita $cita)
+    {
+        // Verificar si la cita aún no ha sido cancelada
+        if ($cita->status != 'cancelada') {
+            $cita->status = 'cancelada';
+            $cita->save();
+
+            return redirect()->back()->with('success', 'Cita cancelada correctamente.');
+        }
+
+        return redirect()->back()->with('error', 'La cita ya ha sido cancelada.');
+    }
+
+    public function CitaMedicoCancelar(Cita $cita)
     {
         // Verificar si la cita aún no ha sido cancelada
         if ($cita->status != 'cancelada') {
